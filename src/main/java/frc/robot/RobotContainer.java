@@ -5,10 +5,8 @@
 package frc.robot;
 
 import frc.robot.subsystems.DriveSubsystem;
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -20,11 +18,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
 
-  // Creates the Logitech controller to drive the robot
-  /* TODO: Create Logitech controller */
-  Joystick mainJoystick = new Joystick(0);
-  Trigger mainButton = new JoystickButton(mainJoystick, 1);
-  
+  // Creates the Xbox controller to drive the robot
+  XboxController mainController = new XboxController(0);  
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -36,10 +31,25 @@ public class RobotContainer {
   private void configureBindings() {
     // Put any trigger->command mappings here.
 
-    // Run motor when B is pressed
-    /* TODO: Bind command */
+    // Run motor with setSpeeds command
+    m_driveSubsystem.setDefaultCommand(
+      m_driveSubsystem.run(() -> m_driveSubsystem.setSpeeds(
+        mainController.getLeftX(), 
+        mainController.getRightX()
+        )
+      )
+    );
   }
 
+  // Deadband command to eliminate drifting
+  // TODO: test deadband value
+  public static double deadBand(double value, double tolerance) {
+    if(value < tolerance && value > -tolerance) {
+      return 0;
+    } else {
+      return value;
+    }
+  }
   
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous

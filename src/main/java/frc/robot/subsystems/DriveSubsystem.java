@@ -41,6 +41,14 @@ public class DriveSubsystem extends SubsystemBase {
     motorFrontRight.set(ControlMode.PercentOutput, rightSpeeds);
   }
 
+  // Run arcade drive based on setSpeeds
+  public void setArcadeSpeed(double forwardSpeed, double turningSpeed) {
+    double leftSpeed = forwardSpeed + turningSpeed;
+    double rightSpeed = forwardSpeed - turningSpeed;
+
+    setSpeeds(leftSpeed, rightSpeed);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

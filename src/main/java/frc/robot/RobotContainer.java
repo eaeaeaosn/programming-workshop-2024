@@ -34,13 +34,11 @@ public class RobotContainer {
     // Put any trigger->command mappings here.
     
     // Run motor with setSpeeds command
-    // TODO: check xbox sticks
-    // TODO: test deadband value
     Command arcadeDrive =
       m_driveSubsystem.run(
         () -> {
           m_driveSubsystem.setArcadeSpeed(
-          deadBand(mainController.getLeftY(), 0.1),
+          deadBand(-mainController.getLeftY(), 0.1),
           deadBand(mainController.getRightX(), 0.1)
           );
         }
@@ -50,22 +48,21 @@ public class RobotContainer {
       m_driveSubsystem.run(
         () -> {
           m_driveSubsystem.setSpeeds(
-          deadBand(mainController.getLeftY(), 0.1),
-          deadBand(mainController.getRightY(), 0.1)
+          deadBand(-mainController.getLeftY(), 0.1),
+          deadBand(-mainController.getRightY(), 0.1)
           );
         }
       );
     
-    // TODO: test quickTurn time period
     Command quickTurn =  
       m_driveSubsystem.run(
         () -> {
           m_driveSubsystem.setSpeeds(
-          1,
-          -1
+          0.5,
+          -0.5
           );
         }
-      ).withTimeout(.2);
+      ).withTimeout(1.5);
 
     mainController.leftBumper().whileTrue(quickTurn);
 

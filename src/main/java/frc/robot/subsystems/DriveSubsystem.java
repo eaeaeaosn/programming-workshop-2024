@@ -6,16 +6,16 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class DriveSubsystem extends SubsystemBase {
-  /** Creates new TalonSRX motor */
-  // TODO: Change motor id
-  TalonSRX motorFrontLeft = new TalonSRX(0);
-  TalonSRX motorFrontRight = new TalonSRX(1);
-  TalonSRX motorBackLeft = new TalonSRX(2);
-  TalonSRX motorBackRight = new TalonSRX(3);
+  /** Creates new VictorSPX motor */
+  WPI_VictorSPX motorFrontRight = new WPI_VictorSPX(0);
+  WPI_VictorSPX motorFrontLeft = new WPI_VictorSPX(1);
+  WPI_VictorSPX motorBackRight = new WPI_VictorSPX(2);
+  WPI_VictorSPX motorBackLeft = new WPI_VictorSPX( 3);
 
   
   
@@ -26,7 +26,6 @@ public class DriveSubsystem extends SubsystemBase {
     motorBackRight.follow(motorFrontRight);
 
     //Set Invert
-    // TODO: Check inverted
     motorFrontLeft.setInverted(false);
     motorFrontRight.setInverted(false);
 
@@ -38,7 +37,7 @@ public class DriveSubsystem extends SubsystemBase {
   /** Run motor according to joystick input values. */
   public void setSpeeds(double leftSpeeds, double rightSpeeds) {
     motorFrontLeft.set(ControlMode.PercentOutput, leftSpeeds);
-    motorFrontRight.set(ControlMode.PercentOutput, rightSpeeds);
+    motorFrontRight.set(ControlMode.PercentOutput, -rightSpeeds);
   }
 
   // Run arcade drive based on setSpeeds
